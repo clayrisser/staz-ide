@@ -70,7 +70,7 @@ class Helper:
             finally:
                 os._exit(0)
 
-    def find_replace(path, find, replace):
+    def find_replace(self, path, find, replace):
         filedata = None
         with open(path, 'r') as file:
             filedata = file.read()
