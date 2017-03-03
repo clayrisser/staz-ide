@@ -76,15 +76,15 @@ def install_tmux(options):
     helper.user_system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
     os.system('ln -sf /home/' + options['user'] + '/.tmux/ /root/.tmux/')
     helper.append_to_file('/home/' + options['user'] + '/.zshrc', '''
-    if [[ -z "\$TMUX" ]]; then
-      tmux
-    fi
+if [[ -z "\$TMUX" ]]; then
+    tmux
+fi
     ''')
     helper.prepend_to_file('/home/' + options['user'] + '/.zshrc', '''
-    export TERM="xterm-256color"
+ export TERM="xterm-256color"
     ''')
     helper.prepend_to_file('/root/.zshrc', '''
-    export TERM="xterm-256color"
+ export TERM="xterm-256color"
     ''')
 
 def install_spacemacs(options):

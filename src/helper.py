@@ -72,8 +72,5 @@ class Helper:
 
     def find_replace(self, path, find, replace):
         content = None
-        with open(path, 'r') as f:
-            content = f.read()
-            content = content.replace(find, replace)
-        with open(path, 'w') as f:
+        with open(path, 'a') as f:
             f.write(content)
