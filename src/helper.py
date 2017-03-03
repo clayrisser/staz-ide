@@ -52,10 +52,11 @@ class Helper:
             f.close()
 
     def prepend_to_file(self, path, content):
-        with open(path, 'r+') as f:
-            content = f.read()
-            f.seek(0, 0)
-            f.write(line.rstrip('\r\n') + '\n' + content)
+        with open(path,'r') as f:
+            with open('newfile.txt','w') as f2:
+                f2.write(content)
+                f2.write(f.read())
+        os.rename('newfile.txt', path)
 
     def user_system(self, command):
         user = os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
