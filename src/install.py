@@ -41,7 +41,7 @@ def install_powerline(options):
     mv PowerlineSymbols.otf /root/.fonts/
     fc-cache -vf /root/.fonts/
     mv 10-powerline-symbols.conf /root/.config/fontconfig/conf.d/
-    ln -s /home/''' + options['user'] + '''/.config/powerline/ /root/.config/powerline/
+    ln -sf /home/''' + options['user'] + '''/.config/powerline/ /root/.config/powerline/
     ''')
 
 def install_tmux(options):
@@ -53,7 +53,7 @@ def install_tmux(options):
         print('Operating system not supported')
         sys.exit('Exiting installer')
     helper.user_system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
-    os.system('ln -s /home/' + options['user'] + '/.tmux/ /root/.tmux/')
+    os.system('ln -sf /home/' + options['user'] + '/.tmux/ /root/.tmux/')
     helper.append_to_user_file('~/.zshrc', '''
     if [[ -z "\$TMUX" ]]; then
       tmux
@@ -92,8 +92,8 @@ def install_spacemacs(options):
     touch ~/.spacemacs
     ''')
     os.system('''
-    ln -s /home/''' + options['user'] + '''/.emacs.d /root/.emacs.d
-    ln -s /home/''' + options['user'] + '''/.spacemacs /root/.spacemacs
+    ln -sf /home/''' + options['user'] + '''/.emacs.d /root/.emacs.d
+    ln -sf /home/''' + options['user'] + '''/.spacemacs /root/.spacemacs
     ''')
 
 main()

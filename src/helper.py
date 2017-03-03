@@ -57,7 +57,7 @@ class Helper:
                     f.write(content)
                 f.close()
             finally:
-                os._close(0)
+                os._exit(0)
 
     def user_system(self, command):
         user = os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
