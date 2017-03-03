@@ -52,7 +52,7 @@ def install_tmux(options):
     else:
         print('Operating system not supported')
         sys.exit('Exiting installer')
-    helper.system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
+    helper.user_system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
     os.system('ln -s /home/' + options['user'] + '/.tmux/ /root/.tmux/')
     helper.append_to_user_file('~/.zshrc', '''
     if [[ -z "\$TMUX" ]]; then
