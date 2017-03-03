@@ -58,6 +58,7 @@ class Helper:
                 f.close()
             finally:
                 os._exit(0)
+            os.waitpid(pid, 0)
 
     def user_system(self, command):
         user = os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
@@ -69,6 +70,7 @@ class Helper:
                 os.system(command)
             finally:
                 os._exit(0)
+            os.waitpid(pid, 0)
 
     def find_replace(self, path, find, replace):
         filedata = None
