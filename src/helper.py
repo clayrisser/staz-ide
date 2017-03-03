@@ -46,10 +46,8 @@ class Helper:
             return fallback
 
     def append_to_file(self, path, content):
-        f = open(path, 'a+')
-        for i in range(2):
+        with open(path, 'a') as f:
             f.write(content)
-        f.close()
 
     def prepend_to_file(self, path, content):
         with open(path,'r') as f:
@@ -72,5 +70,8 @@ class Helper:
 
     def find_replace(self, path, find, replace):
         content = None
-        with open(path, 'a') as f:
+        with open(path, 'r') as f:
+            content = f.read()
+            content = content.replace(find, replace)
+        with open(path, 'w') as f:
             f.write(content)
