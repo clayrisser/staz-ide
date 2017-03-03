@@ -56,7 +56,6 @@ class Helper:
             content = f.read()
             f.seek(0, 0)
             f.write(line.rstrip('\r\n') + '\n' + content)
-            f.close()
 
     def user_system(self, command):
         user = os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
@@ -77,4 +76,3 @@ class Helper:
             content = content.replace(find, replace)
         with open(path, 'w') as f:
             f.write(content)
-            f.close()
