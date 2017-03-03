@@ -108,6 +108,7 @@ def install_spacemacs(options):
     ''')
 
 def finalize(options):
-    os.system('rm -r ./staz-ide && zsh')
+    os.system('rm -r ./staz-ide')
+    print('\nRestart your shell for changes to take effect')
 
 main()
