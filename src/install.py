@@ -40,7 +40,6 @@ def install_zshrc(options):
     ''')
     helper.find_replace('/home/' + options['user'] + '/.zshrc', 'ZSH_THEME="robbyrussell"', 'ZSH_THEME="powerlevel9k/powerlevel9k"')
     os.system('''
-    ln -sf /home/''' + options['user'] + '''/.oh-my-zsh /root/.oh-my-zsh
     cp /home/''' + options['user'] + '''/.zshrc /root/.zshrc
     chsh -s /bin/zsh
     ''')
@@ -51,17 +50,21 @@ def install_powerline(options):
     curl -O https://raw.githubusercontent.com/jamrizzi/staz-ide/master/tmux/.tmux.conf
     curl -O https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
     curl -O https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    mkdir -p ~/.fonts
+    mkdir -p ~/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf ~/.fonts/
-    fc-cache -vf ~/.fonts/
     mv 10-powerline-symbols.conf ~/.config/fontconfig/conf.d/
+    fc-cache -vf ~/.fonts/
     cp -r /usr/share/powerline/config_files/ ~/.config/powerline/
     ''')
     os.system('''
     curl -O https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
     curl -O https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    mkdir -p /root/.fonts
+    mkdir -p /root/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf /root/.fonts/
-    fc-cache -vf /root/.fonts/
     mv 10-powerline-symbols.conf /root/.config/fontconfig/conf.d/
+    fc-cache -vf /root/.fonts/
     ln -sf /home/''' + options['user'] + '''/.config/powerline/ /root/.config/powerline/
     ''')
 
