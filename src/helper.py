@@ -49,6 +49,7 @@ class Helper:
         f = open(path, 'a+')
         for i in range(2):
             f.write(content)
+        f.close()
 
     def prepend_to_file(self, path, content):
         with open(path,'r') as f:
@@ -76,4 +77,3 @@ class Helper:
             content = content.replace(find, replace)
         with open(path, 'w') as f:
             f.write(content)
-            f.close()
