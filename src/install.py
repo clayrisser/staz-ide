@@ -20,7 +20,7 @@ def get_defaults():
 
 def gather_information(defaults):
     options = {
-        user: os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
+        'user': os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
     }
     return options
 
