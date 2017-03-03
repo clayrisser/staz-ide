@@ -45,20 +45,18 @@ class Helper:
         else:
             return fallback
 
-    def append_to_user_file(self, path, content):
-        user = os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
-        pid = os.fork()
-        if pid == 0:
-            try:
-                os.setgid(getpwnam(user).pw_gid)
-                os.setuid(getpwnam(user).pw_uid)
-                f = open(filename, 'a+')
-                for i in range(2):
-                    f.write(content)
-                f.close()
-            finally:
-                os._exit(0)
-        os.waitpid(pid, 0)
+    def append_to_file(self, path, content):
+        f = open(path, 'a+')
+        for i in range(2):
+            f.write(content)
+            f.close()
+
+    def prepend_to_file(self, path, content):
+        with open(path, 'r+') as f:
+            content = f.read()
+            f.seek(0, 0)
+            f.write(line.rstrip('\r\n') + '\n' + content)
+            f.close()
 
     def user_system(self, command):
         user = os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
@@ -73,9 +71,10 @@ class Helper:
         os.waitpid(pid, 0)
 
     def find_replace(self, path, find, replace):
-        filedata = None
-        with open(path, 'r') as file:
-            filedata = file.read()
-            filedata = filedata.replace(find, replace)
-        with open(path, 'w') as file:
-            file.write(filedata)
+        content = None
+        with open(path, 'r') as f:
+            content = f.read()
+            content = content.replace(find, replace)
+        with open(path, 'w') as f:
+            f.write(content)
+            f.close()

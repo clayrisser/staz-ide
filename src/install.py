@@ -15,7 +15,6 @@ def main():
     install_powerline(options)
     install_tmux(options)
     install_spacemacs(options)
-    reload_shell(options)
 
 def get_defaults():
     return {}
@@ -42,7 +41,7 @@ def install_zshrc(options):
     helper.find_replace('/home/' + options['user'] + '/.zshrc', 'ZSH_THEME="robbyrussell"', 'ZSH_THEME="powerlevel9k/powerlevel9k"')
     os.system('''
     ln -sf /home/''' + options['user'] + '''/.oh-my-zsh /root/.oh-my-zsh
-    ln -sf /home/''' + options['user'] + '''/.zshrc /root/.zshrc
+    cp /home/''' + options['user'] + '''/.zshrc /root/.zshrc
     chsh -s /bin/zsh
     ''')
 
@@ -76,10 +75,16 @@ def install_tmux(options):
         sys.exit('Exiting installer')
     helper.user_system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
     os.system('ln -sf /home/' + options['user'] + '/.tmux/ /root/.tmux/')
-    helper.append_to_user_file('~/.zshrc', '''
+    helper.append_to_file('/home/' + options['user'] + '/.zshrc', '''
     if [[ -z "\$TMUX" ]]; then
       tmux
     fi
+    ''')
+    helper.prepend_to_file('/home/' + options['user'] + '/.zshrc', '''
+    export TERM="xterm-256color"
+    ''')
+    helper.prepend_to_file('/root/.zshrc', '''
+    export TERM="xterm-256color"
     ''')
 
 def install_spacemacs(options):
@@ -98,8 +103,5 @@ def install_spacemacs(options):
     ln -sf /home/''' + options['user'] + '''/.emacs.d /root/.emacs.d
     ln -sf /home/''' + options['user'] + '''/.spacemacs /root/.spacemacs
     ''')
-
-def reload_shell(options):
-    os.system('source ~/.zshrc')
 
 main()
