@@ -15,6 +15,7 @@ def main():
     install_powerline(options)
     install_tmux(options)
     install_spacemacs(options)
+    print('\nRestart your shell for changes to take effect')
 
 def get_defaults():
     return {}
@@ -36,13 +37,12 @@ def install_zshrc(options):
     helper.user_system('''
     curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
     git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k/
-    chsh -s /bin/zsh
     ''')
     helper.find_replace('/home/' + options['user'] + '/.zshrc', 'ZSH_THEME="robbyrussell"', 'ZSH_THEME="powerlevel9k/powerlevel9k"')
     os.system('''
     cp /home/''' + options['user'] + '''/.zshrc /root/.zshrc
-    chsh -s /bin/zsh
     ''')
+    helper.find_replace('/etc/passwd', '/bin/bash', '/bin/zsh')
 
 def install_powerline(options):
     os.system('pip install powerline-status')
