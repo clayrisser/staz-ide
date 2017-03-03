@@ -11,9 +11,11 @@ def main():
     helper.is_root()
     options = gather_information(get_defaults())
     helper.prepare()
-    install_spacemacs(options)
-    install_tmux(options)
     install_zshrc(options)
+    install_powerline(options)
+    install_tmux(options)
+    install_spacemacs(options)
+    reload_shell(options)
 
 def get_defaults():
     return {}
@@ -23,6 +25,26 @@ def gather_information(defaults):
         'user': os.environ['SUDO_USER'] if 'SUDO_USER' in os.environ else os.environ['USER']
     }
     return options
+
+def install_zshrc(options):
+    if (platform.dist()[0] == 'centos'):
+        os.system('yum install -y zsh')
+    elif (platform.dist()[0] == 'Ubuntu'):
+        os.system('apt-get install -y zsh')
+    else:
+        print('Operating system not supported')
+        sys.exit('Exiting installer')
+    helper.user_system('''
+    curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k/
+    chsh -s /bin/zsh
+    ''')
+    helper.find_replace('/home/' + options['user'] + '/.zshrc', 'ZSH_THEME="robbyrussell"', 'ZSH_THEME="powerlevel9k/powerlevel9k"')
+    os.system('''
+    ln -sf /home/''' + options['user'] + '''/.oh-my-zsh /root/.oh-my-zsh
+    ln -sf /home/''' + options['user'] + '''/.zshrc /root/.zshrc
+    chsh -s /bin/zsh
+    ''')
 
 def install_powerline(options):
     os.system('pip install powerline-status')
@@ -60,25 +82,6 @@ def install_tmux(options):
     fi
     ''')
 
-def install_zshrc(options):
-    if (platform.dist()[0] == 'centos'):
-        os.system('yum install -y zsh')
-    elif (platform.dist()[0] == 'Ubuntu'):
-        os.system('apt-get install -y zsh')
-    else:
-        print('Operating system not supported')
-        sys.exit('Exiting installer')
-    helper.user_system('''
-    curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k/
-    ''')
-    helper.find_replace('/home/' + options['user'] + '/.zshrc', 'ZSH_THEME="robbyrussell"', 'ZSH_THEME="powerlevel9k/powerlevel9k"')
-    os.system('''
-    curl -L https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k/
-    ''')
-    helper.find_replace('/root/.zshrc', 'ZSH_THEME="robbyrussell"', 'ZSH_THEME="powerlevel9k/powerlevel9k"')
-
 def install_spacemacs(options):
     if (platform.dist()[0] == 'centos'):
         os.system('yum install -y emacs')
@@ -95,5 +98,8 @@ def install_spacemacs(options):
     ln -sf /home/''' + options['user'] + '''/.emacs.d /root/.emacs.d
     ln -sf /home/''' + options['user'] + '''/.spacemacs /root/.spacemacs
     ''')
+
+def reload_shell(options):
+    os.system('source ~/.zshrc')
 
 main()
