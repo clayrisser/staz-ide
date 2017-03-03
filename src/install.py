@@ -15,7 +15,7 @@ def main():
     install_powerline(options)
     install_tmux(options)
     install_spacemacs(options)
-    print('\nRestart your shell for changes to take effect')
+    finalize(options)
 
 def get_defaults():
     return {}
@@ -79,7 +79,7 @@ def install_tmux(options):
     helper.user_system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
     os.system('ln -sf /home/' + options['user'] + '/.tmux/ /root/.tmux/')
     helper.append_to_file('/home/' + options['user'] + '/.zshrc', '''
-if [[ -z "\$TMUX" ]]; then
+if [[ -z "$TMUX" ]]; then
     tmux
 fi
     ''')
@@ -106,5 +106,8 @@ def install_spacemacs(options):
     ln -sf /home/''' + options['user'] + '''/.emacs.d /root/.emacs.d
     ln -sf /home/''' + options['user'] + '''/.spacemacs /root/.spacemacs
     ''')
+
+def finalize(options):
+    os.system('rm -r ./staz-ide && zsh')
 
 main()
