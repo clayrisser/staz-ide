@@ -47,9 +47,9 @@ def install_zshrc(options):
 def install_powerline(options):
     os.system('pip install powerline-status')
     helper.user_system('''
-    curl -O https://raw.githubusercontent.com/jamrizzi/staz-ide/master/tmux/.tmux.conf
-    curl -O https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-    curl -O https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    curl -OL https://raw.githubusercontent.com/jamrizzi/staz-ide/master/tmux/.tmux.conf
+    curl -OL https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    curl -OL https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
     mkdir -p ~/.fonts
     mkdir -p ~/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf ~/.fonts/
@@ -58,8 +58,8 @@ def install_powerline(options):
     cp -r /usr/share/powerline/config_files/ ~/.config/powerline/
     ''')
     os.system('''
-    curl -O https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
-    curl -O https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    curl -OL https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    curl -OL https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
     mkdir -p /root/.fonts
     mkdir -p /root/.config/fontconfig/conf.d/
     mv PowerlineSymbols.otf /root/.fonts/
@@ -77,16 +77,12 @@ def install_tmux(options):
         print('Operating system not supported')
         sys.exit('Exiting installer')
     helper.user_system('git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm')
-    os.system('ln -sf /home/' + options['user'] + '/.tmux/ /root/.tmux/')
     helper.append_to_file('/home/' + options['user'] + '/.zshrc', '''
 if [[ -z "$TMUX" ]]; then
     tmux
 fi
     ''')
     helper.prepend_to_file('/home/' + options['user'] + '/.zshrc', '''
- export TERM="xterm-256color"
-    ''')
-    helper.prepend_to_file('/root/.zshrc', '''
  export TERM="xterm-256color"
     ''')
 
