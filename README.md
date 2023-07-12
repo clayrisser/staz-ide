@@ -1,4 +1,7 @@
 # staz-ide
+
+![](assets/staz-ide.png)
+
 Turn your terminal into a powerful integrated development environment
 
 ### [Spacemacs](http://spacemacs.org/)
